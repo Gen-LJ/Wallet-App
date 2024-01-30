@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "371704931692",
+    "project_id": "wallet-app-afe6c",
+    "storage_bucket": "wallet-app-afe6c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:371704931692:android:cc5a9110d958d5e40dbf49",
+        "android_client_info": {
+          "package_name": "com.example.wallet_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuZ4y0uqy3LM4KOHPcI77cDwntN1dV8eQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
