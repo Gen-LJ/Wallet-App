@@ -1,24 +1,27 @@
-class ExpenseModel {
+class BalanceModel {
   int? id;
   String? name;
-  int? balance;
   String? time;
+  int? balance;
+  String? UID;
 
-  ExpenseModel({this.id, this.name, this.balance, this.time});
+  BalanceModel({this.id, this.name,  this.time ,this.balance ,this.UID});
 
-  ExpenseModel.fromJson(Map<String, dynamic> json) {
+  BalanceModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
-    balance = json['cost'];
     time = json['time'];
+    balance = json['balance'];
+    UID = json['UID'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['name'] = name;
-    data['cost'] = balance;
     data['time'] = time;
+    data['balance'] = balance;
+    data['UID'] = UID;
     return data;
   }
 }

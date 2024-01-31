@@ -54,7 +54,8 @@ class MyApp extends StatelessWidget {
                   title: FirebaseAuth.instance.currentUser!.displayName!,
                   image: FirebaseAuth.instance.currentUser!.photoURL ?? '',
                 email: FirebaseAuth.instance.currentUser!.email ?? '',
-                  phNumber: FirebaseAuth.instance.currentUser!.phoneNumber ?? 'No Phone Number Added',);
+                  phNumber: FirebaseAuth.instance.currentUser!.phoneNumber ?? 'No Phone Number Added',
+                  UID: FirebaseAuth.instance.currentUser!.uid,);
               }
             }
             return CircularProgressIndicator();

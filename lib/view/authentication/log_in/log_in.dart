@@ -7,6 +7,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:wallet_app/api/firestore/firestore.dart';
 
 
 class LogInScreen extends StatefulWidget {
@@ -100,10 +101,12 @@ class _LogInScreenState extends State<LogInScreen> {
     UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
     debugPrint(userCredential.user?.displayName);
     debugPrint(userCredential.user?.phoneNumber);
+     debugPrint(userCredential.user?.uid);
+  }
 
-
-
-
+  Future addUserDetails(
+      String name,String email
+      ) async {
 
   }
 }
