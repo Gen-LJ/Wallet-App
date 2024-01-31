@@ -35,6 +35,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   void didChangeDependencies() async {
+
+
     super.didChangeDependencies();
 
     databaseProvider = DatabaseProvider.of(context);
@@ -42,22 +44,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
     //   print(querySnapshot['name']);
     //
     // });
-    setState(() {
-      databaseProvider.dataBaseHelper.getAllBalance();
-      databaseProvider.dataBaseHelper.getAllByUID(widget.UID);
-    });
+
+    // databaseProvider.dataBaseHelper.getAllBalance();
+    // databaseProvider.dataBaseHelper.getAllByUID(widget.UID);
 
     databaseProvider.dataBaseHelper.insertBalance(
-        name: widget.title, time: DateTime.now().toString(), balance: 10000,UID: widget.UID);
-
+        name: widget.title,
+        time: DateTime.now().toString(),
+        balance: 10000,
+        UID: widget.UID);
     //fireStoreService.addUsers(widget.title, widget.email, 10000);
   }
+
+  // String title = "";
+  // String image = "";
+  // String email = "";
+  // String phoneNumber = "";
+  // String UID = "";
+  // //
+  // @override
+  // void initState() {
+  //   title = FirebaseAuth.instance.currentUser!.displayName!;
+  //   image = FirebaseAuth.instance.currentUser!.photoURL!;
+  //   email = FirebaseAuth.instance.currentUser!.email!;
+  //   phoneNumber = FirebaseAuth.instance.currentUser!.phoneNumber!;
+  //   UID = FirebaseAuth.instance.currentUser!.uid;
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        automaticallyImplyLeading: false,
+        title: const Text(
           'Profile',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
@@ -80,22 +100,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 imageUrl: widget.image,
                 isNetworkImage: true,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
               Text('Name : ${widget.title}'),
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
               Text('Email Address : ${widget.email}'),
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
               Text('Phone : ${widget.phNumber}'),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
-              Container(
+              SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
                     onPressed: () async {
@@ -110,17 +130,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       await GoogleSignIn().signOut();
                       FirebaseAuth.instance.signOut();
                     },
-                    child: Text('Log Out')),
+                    child: const Text('Log Out')),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 50,
               ),
-              OldBalance(databaseProvider: databaseProvider,
+              OldBalance(
+                databaseProvider: databaseProvider,
                 title: widget.title,
                 image: widget.image,
                 email: widget.email,
                 phNumber: widget.phNumber,
-                UID: widget.UID,)
+                UID: widget.UID,
+              )
             ],
           ),
         ),
@@ -128,4 +150,3 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 }
-

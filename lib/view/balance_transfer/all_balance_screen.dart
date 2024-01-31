@@ -66,7 +66,7 @@ class _AllBalanceScreenState extends State<AllBalanceScreen> {
                               child: ListTile(
                                 onTap: () async {
                                   if(widget.UID != balanceModel.UID){
-                                    String? dialogResult = await showDialog(
+                                    bool? dialogResult = await showDialog(
                                         context: context,
                                         builder: (context){
                                           return  AlertDialog(
@@ -76,15 +76,13 @@ class _AllBalanceScreenState extends State<AllBalanceScreen> {
                                               image: widget.image,
                                               email: widget.email,
                                               phNumber: widget.phNumber,
-                                              UID: widget.UID,
+                                              UID: widget.UID, receiverTitle: balanceModel.name!,
                                             ),
                                           );
                                         });
-                                    if(dialogResult == 'inserted'){
-                                      setState(() {
-                                        databaseProvider.dataBaseHelper.getAllBalance();
-                                        databaseProvider.dataBaseHelper.getAllByUID(widget.UID);
-                                      });
+                                    print('dialogResult = $dialogResult');
+                                    if(dialogResult == true){
+                                      Navigator.pop(context,true);
                                     }
                                   }
                                   else

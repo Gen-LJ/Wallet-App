@@ -63,6 +63,7 @@ class DataBaseHelper{
   }
 
   Future<BalanceModel> getAllByUID(String UID) async{
+    await Future.delayed(Duration(seconds: 2));
     List<Map<String,dynamic>> balanceMap =await _balanceDb.rawQuery('select * from $balanceTable where UID like "$UID%"');
     return balanceMap.map((e) {
       return BalanceModel.fromJson(e);

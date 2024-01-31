@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:wallet_app/model/database/model/balance_model.dart';
 
@@ -8,7 +7,12 @@ import '../balance_transfer/all_balance_screen.dart';
 class OldBalance extends StatefulWidget {
   const OldBalance({
     super.key,
-    required this.databaseProvider, required this.title, required this.image, required this.email, required this.phNumber, required this.UID,
+    required this.databaseProvider,
+    required this.title,
+    required this.image,
+    required this.email,
+    required this.phNumber,
+    required this.UID,
   });
 
   final DatabaseProvider databaseProvider;
@@ -23,16 +27,41 @@ class OldBalance extends StatefulWidget {
 }
 
 class _OldBalanceState extends State<OldBalance> {
+  int balance = 0;
+
+  @override
+  void initState() {
+    setState(() {
+      widget.databaseProvider.dataBaseHelper
+          .getAllByUID(widget.UID)
+          .then((value) {
+        balance = value.balance!;
+      });
+    });
+    super.initState();
+  }
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    setState(() {
+      widget.databaseProvider.dataBaseHelper.getAllByUID(widget.UID);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<BalanceModel>(
-      future: widget.databaseProvider.dataBaseHelper.getAllByUID(widget.UID),
-      builder:
-          (BuildContext context, AsyncSnapshot<BalanceModel> snapshot) {
-        if (snapshot.hasData) {
+    print('build method is called');
+    final getBalance = widget.databaseProvider.dataBaseHelper.getAllByUID(widget.UID);
+    final balanceWidget = FutureBuilder<BalanceModel>(
+      key: UniqueKey(),
+      future: getBalance,
+      builder: (BuildContext context, AsyncSnapshot<BalanceModel> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasData) {
+          print('This is hasdata');
           return Container(
-            padding:
-            EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
             height: 200,
             width: double.infinity,
             decoration: BoxDecoration(
@@ -43,26 +72,39 @@ class _OldBalanceState extends State<OldBalance> {
               children: [
                 Text('Username : ${snapshot.data!.name ?? ''}'),
                 Text('ID :${snapshot.data!.id} '),
-                Text(
-                  'Current balance',
+                const Text(
+                  "Current balance",
                   style: TextStyle(color: Colors.grey),
                 ),
                 Text(
                   'SGD ${snapshot.data!.balance ?? 0} ',
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontSize: 21, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 10,),
-                ElevatedButton(onPressed: () async {
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>AllBalanceScreen(
-                    title: widget.title,
-                    image: widget.image,
-                    email: widget.email,
-                    phNumber: widget.phNumber,
-                    UID: widget.UID,
-                    fromUserID: snapshot.data!.id,
-                  )));
-                }, child: Text('Trasfer Balance'))
+                const SizedBox(
+                  height: 10,
+                ),
+                ElevatedButton(
+                    onPressed: () async {
+                      print('This is set');
+                       Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AllBalanceScreen(
+                                    title: widget.title,
+                                    image: widget.image,
+                                    email: widget.email,
+                                    phNumber: widget.phNumber,
+                                    UID: widget.UID,
+                                    fromUserID: snapshot.data!.id,
+                                  ))).then((value) {
+                        setState(() {
+                          print('This is set state.');
+                        });
+                      });
+
+                    },
+                    child: const Text('Transfer Balance'))
               ],
             ),
           );
@@ -72,5 +114,6 @@ class _OldBalanceState extends State<OldBalance> {
         return const Center(child: CircularProgressIndicator());
       },
     );
+    return balanceWidget;
   }
 }
